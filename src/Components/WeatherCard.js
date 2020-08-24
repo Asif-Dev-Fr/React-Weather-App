@@ -1,13 +1,15 @@
 import React from 'react';
 
-const WeatherCard = () => {
+const WeatherCard = ({result}) => {
+    const date = new Date(result.dt*1000);
     return (
         <div className="card" >
             <img src="..." className="card-img-top" alt="..." />
             <div className="card-body">
-                <h5 className="card-title">Card title</h5>
-                <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" className="btn btn-primary">Go somewhere</a>
+                <h4 className="card-title">{date}</h4>
+                <h3 className="card-text">{result.weather[0].main}</h3>
+                <h5 className="card-text">Max {result.temp.max}° Min {result.temp.min}°</h5>
+                
             </div>
         </div>
 
