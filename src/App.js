@@ -8,6 +8,7 @@ const App = () => {
   const [latitude, setLatitude] = useState();
   const [longitude, setLongitude] = useState();
   const [cityName, setcityName] = useState();
+  const [countryName, setCountryName] = useState();
   const [result, setResult] = useState();
 
   const searchInput = (e) => {
@@ -24,6 +25,8 @@ const App = () => {
       const lat = data.city.coord.lat;
       const lon = data.city.coord.lon;
       const name = data.city.name;
+      const country = data.city.country;
+      setCountryName(country);
       setcityName(name);
       setLongitude(lon);
       setLatitude(lat);
@@ -39,6 +42,8 @@ const App = () => {
     const lat = data.city.coord.lat;
     const lon = data.city.coord.lon;
     const name = data.city.name;
+    const country = data.city.country;
+    setCountryName(country);
     setcityName(name);
     setLongitude(lon);
     setLatitude(lat);
@@ -72,7 +77,12 @@ const App = () => {
           {
             (typeof cityName !== 'undefined') ?
             <section className="section-1">
-              <h1> {cityName} </h1>
+              <h1> 
+                {cityName} 
+                {
+                  countryName === 'JP' ? ' Japan ' : ''
+                }
+              </h1>
             </section>
              : ''
           }     

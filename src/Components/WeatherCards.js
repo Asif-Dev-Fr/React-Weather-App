@@ -14,7 +14,7 @@ const WeatherCards = ({lat, lon}) => {
         fetchData();
     }, [lat,lon]);
     return(
-        <div className="weather-card">
+        <div className="weather-card row">
            {   
                 (typeof result !== "undefined") ?
                 result.slice(0,3).map((value) =>(
