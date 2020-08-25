@@ -42,7 +42,7 @@ const WeatherCard = ({result}) => {
                 </h4>
                 <h2 className="card-text text-center">{weather}</h2>
                 <h5 className="card-text d-flex justify-content-between">
-                    <span>Max : {result.temp.max}° </span>
+                    <span>Max : {result.temp.max}°</span>
                     <span>Min : {result.temp.min}°</span>
                 </h5>
                 

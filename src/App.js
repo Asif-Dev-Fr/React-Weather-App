@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import WeatherCards from './Components/WeatherCards';
+import MapJp from './Components/Map';
 
 const App = () => {
 
@@ -9,7 +10,6 @@ const App = () => {
   const [longitude, setLongitude] = useState();
   const [cityName, setcityName] = useState();
   const [countryName, setCountryName] = useState();
-  const [result, setResult] = useState();
 
   const searchInput = (e) => {
     let searchZipcode = e.target.value;
@@ -92,6 +92,17 @@ const App = () => {
               <section className="section-2">
                 <p className="text-mockup">3-day forecast</p> 
                 <WeatherCards lat={latitude} lon={longitude} />
+              </section> : ''
+          }
+
+          {
+            (typeof latitude !== "undefined") ?
+              <section className="section-3 row">
+                <div className="left col-12 col-lg-5">
+                  <p className="text-mockup">Map</p> 
+                  <MapJp lat={latitude} lon={longitude} zipCode={query} name={cityName} />
+                </div>
+                
               </section> : ''
           }
         </main>
