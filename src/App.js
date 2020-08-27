@@ -3,6 +3,7 @@ import './App.css';
 import WeatherCards from './Components/WeatherCards';
 import MapJp from './Components/Map';
 import AirQuality from './Components/AirQuality';
+import Wikiinfos from './Components/WikiInfos';
 
 const App = () => {
 
@@ -24,7 +25,7 @@ const App = () => {
 
       const response = await fetch("http://api.openweathermap.org/data/2.5/forecast?q=" + query + "&appid=" + process.env.REACT_APP_API_KEY);
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       const errorMessage = data.message;
       if (errorMessage !== "city not found") {
         const lat = data.city.coord.lat;
@@ -125,6 +126,13 @@ const App = () => {
                 </div>
 
                 
+              </section> : ''
+          }
+
+          {
+            (typeof cityName !== "undefined") ? 
+              <section className="section-4">
+                <Wikiinfos city={cityName} />
               </section> : ''
           }
         </main>
