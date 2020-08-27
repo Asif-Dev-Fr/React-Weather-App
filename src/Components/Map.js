@@ -1,9 +1,9 @@
 import React from 'react';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 
-const MapJp = ({ lat, lon, name, zipCode }) => {
+const MapJp = ({ lat, lon, name, population }) => {
     const position = [lat, lon];
-    const zoom = 16;
+    const zoom = 11;
     return (
         <Map center={position} zoom={zoom}>
             <TileLayer
@@ -13,8 +13,8 @@ const MapJp = ({ lat, lon, name, zipCode }) => {
             <Marker position={position}>
                 <Popup>
                     <p>
-                        Zip code : {zipCode} <br/>
-                        City : {name}
+                        City : {name} <br/>
+                        Population : {population}
                     </p>
                 </Popup>
             </Marker>

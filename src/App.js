@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import WeatherCards from './Components/WeatherCards';
 import MapJp from './Components/Map';
+import AirQuality from './Components/AirQuality';
 
 const App = () => {
 
@@ -10,6 +11,8 @@ const App = () => {
   const [longitude, setLongitude] = useState();
   const [cityName, setcityName] = useState();
   const [countryName, setCountryName] = useState();
+  const [population, setPopulation] = useState();
+  const [error, setError] = useState(false);
 
   const searchInput = (e) => {
     let searchZipcode = e.target.value;
@@ -19,34 +22,51 @@ const App = () => {
   const searchEnter = async (event) => {
     if (event.key === 'Enter') {
 
-      const response = await fetch("http://api.openweathermap.org/data/2.5/forecast?zip=" + query + ",jp&appid=" + process.env.REACT_APP_API_KEY);
+      const response = await fetch("http://api.openweathermap.org/data/2.5/forecast?q=" + query + "&appid=" + process.env.REACT_APP_API_KEY);
       const data = await response.json();
       console.log(data);
-      const lat = data.city.coord.lat;
-      const lon = data.city.coord.lon;
-      const name = data.city.name;
-      const country = data.city.country;
-      setCountryName(country);
-      setcityName(name);
-      setLongitude(lon);
-      setLatitude(lat);
+      const errorMessage = data.message;
+      if (errorMessage !== "city not found") {
+        const lat = data.city.coord.lat;
+        const lon = data.city.coord.lon;
+        const name = data.city.name;
+        const country = data.city.country;
+        const pop = data.city.population;
+        setPopulation(pop);
+        setCountryName(country);
+        setcityName(name);
+        setLongitude(lon);
+        setLatitude(lat);
+        setError(false);
+      } else {
+        setError(true);
+      }
+      
     }
   }
 
 
   const searchButton = async () => {
 
-    const response = await fetch("http://api.openweathermap.org/data/2.5/forecast?zip=" + query + ",jp&appid=" + process.env.REACT_APP_API_KEY);
-    const data = await response.json();
-    console.log(data);
-    const lat = data.city.coord.lat;
-    const lon = data.city.coord.lon;
-    const name = data.city.name;
-    const country = data.city.country;
-    setCountryName(country);
-    setcityName(name);
-    setLongitude(lon);
-    setLatitude(lat);
+    const response = await fetch("http://api.openweathermap.org/data/2.5/forecast?q=" + query + "&appid=" + process.env.REACT_APP_API_KEY);
+      const data = await response.json();
+      console.log(data);
+      const errorMessage = data.message;
+      if (errorMessage !== "city not found") {
+        const lat = data.city.coord.lat;
+        const lon = data.city.coord.lon;
+        const name = data.city.name;
+        const country = data.city.country;
+        const pop = data.city.population;
+        setPopulation(pop);
+        setCountryName(country);
+        setcityName(name);
+        setLongitude(lon);
+        setLatitude(lat);
+        setError(false);
+      } else {
+        setError(true);
+      }
   
   }
 
@@ -56,12 +76,9 @@ const App = () => {
 
         <header>
           <div className="row">
-            <div className="col-12 col-lg-2 label">
-              <label htmlFor="PostCode">POST CODE</label>
-            </div>
 
-            <div className="col-12 col-lg-8 input">
-              <input type="text" name="PostCode" placeholder="Please enter a japanese zip code (for example : 160-0022)" id="PostCode" onChange={searchInput} onKeyPress={searchEnter} />
+            <div className="col-12 col-lg-10 input">
+              <input type="text" name="city" placeholder="Enter the name of a City" id="city" onChange={searchInput} onKeyPress={searchEnter} />
             </div>
 
             <div className="col-12 col-lg-2 submitButton">
@@ -72,16 +89,15 @@ const App = () => {
           </div>
         </header>
 
+        {error === false ?
         <main>
 
           {
             (typeof cityName !== 'undefined') ?
             <section className="section-1">
               <h1> 
-                {cityName} 
-                {
-                  countryName === 'JP' ? ' Japan ' : ''
-                }
+                { cityName } &nbsp;
+                ({ countryName })
               </h1>
             </section>
              : ''
@@ -98,14 +114,22 @@ const App = () => {
           {
             (typeof latitude !== "undefined") ?
               <section className="section-3 row">
+
                 <div className="left col-12 col-lg-5">
                   <p className="text-mockup">Map</p> 
-                  <MapJp lat={latitude} lon={longitude} zipCode={query} name={cityName} />
+                  <MapJp lat={latitude} lon={longitude} population={population} name={cityName} />
                 </div>
+
+                <div className="right col-12 col-lg-5">
+                  <AirQuality lat={latitude} lon={longitude} />
+                </div>
+
                 
               </section> : ''
           }
         </main>
+        : <div className="errorDisplay"> The city that you entered is incorrect. Try again </div>
+        }
 
 
 

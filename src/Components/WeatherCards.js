@@ -8,7 +8,7 @@ const WeatherCards = ({lat, lon}) => {
         const fetchData = async() => {
             const response = await fetch('https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&exclude=minutely,hourly&units=metric&appid=' + process.env.REACT_APP_API_KEY);
             const data = await response.json();
-            console.log(data.daily);
+            // console.log(data.daily);
             setResult(data.daily);
         }
         fetchData();
