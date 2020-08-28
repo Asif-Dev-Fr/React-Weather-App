@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import './App.css';
 import WeatherCards from './Components/WeatherCards';
 import MapJp from './Components/Map';
-import AirQuality from './Components/AirQuality';
-import Wikiinfos from './Components/WikiInfos';
 
 const App = () => {
 
@@ -51,7 +49,7 @@ const App = () => {
 
     const response = await fetch("http://api.openweathermap.org/data/2.5/forecast?q=" + query + "&appid=" + process.env.REACT_APP_API_KEY);
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       const errorMessage = data.message;
       if (errorMessage !== "city not found") {
         const lat = data.city.coord.lat;
@@ -116,25 +114,14 @@ const App = () => {
             (typeof latitude !== "undefined") ?
               <section className="section-3 row">
 
-                <div className="left col-12 col-lg-5">
+                <div className="center col-12 col-lg-8">
                   <p className="text-mockup">Map</p> 
                   <MapJp lat={latitude} lon={longitude} population={population} name={cityName} />
                 </div>
-
-                <div className="right col-12 col-lg-5">
-                  <AirQuality lat={latitude} lon={longitude} />
-                </div>
-
                 
               </section> : ''
           }
 
-          {
-            (typeof cityName !== "undefined") ? 
-              <section className="section-4">
-                <Wikiinfos city={cityName} />
-              </section> : ''
-          }
         </main>
         : <div className="errorDisplay"> The city that you entered is incorrect. Try again </div>
         }
