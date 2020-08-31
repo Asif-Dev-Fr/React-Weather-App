@@ -9,22 +9,22 @@ const WeatherCard = ({result}) => {
 
     // Icone 
     let weather = result.weather[0].main;
-    let icone = '';
+    let icone = "";
     switch(weather) {
         case 'Sun':
-            icone = "/icone/sun.png";
+            icone = process.env.PUBLIC_URL + "/icone/sun.png";
             break;
         case 'Rain' :
-            icone = "/icone/rain.png";
+            icone = process.env.PUBLIC_URL + "/icone/rain.png";
             break;
         case 'Snow' : 
-            icone = "/icone/snow.png";
+            icone = process.env.PUBLIC_URL + "/icone/snow.png";
             break;
         case 'Clouds' :
-            icone = "/icone/cloud.png";
+            icone = process.env.PUBLIC_URL + "/icone/cloud.png";
             break;
         case 'Clear' :
-            icone = "/icone/clear.jpg";
+            icone = process.env.PUBLIC_URL + "/icone/clear.jpg" ;
             break;
         default :
             icone = "No icone found";
